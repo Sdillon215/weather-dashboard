@@ -1,17 +1,6 @@
+var dailyListEl = $("#daily-list");
 var searchCityEl = $("#search-city");
-// 5 day weather forecast api call
-// var fiveApiUrl = "https://api.openweathermap.org/data/2.5/forecast?q=" + city + "&units=imperial&appid=c845404333af03f8f793eadcc58eeb29";
 
-// fetch(fiveApiUrl).then(function(response) {
-//     if (response.ok) {
-//         response.json().then(function (data) {
-//             console.log(data.city.name);
-//             console.log(data.list[0].main.temp);
-//             console.log(data.list[0].wind.speed);
-//             console.log(data.list[0].main.humidity);
-//         });
-//     }
-// });
 
 
 var searchSubmitHandler = function (event) {
@@ -21,25 +10,42 @@ var searchSubmitHandler = function (event) {
     var city = searchCityEl.val().trim();
 
     if (city) {
-        getWeather(city);
+        getDailyWeather(city);
+        getFiveWeather(city);
     }
 };
 
-var getWeather = function (city) {
+var getDailyWeather = function (city) {
     var currentApiUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=imperial&appid=c845404333af03f8f793eadcc58eeb29";
 
     fetch(currentApiUrl).then(function (response) {
         if (response.ok) {
             response.json().then(function (data) {
-               
+
                 displayDailyWeather(data);
             });
-        }
+        } else {
+            alert("Please enter a city name!");
+        };
     });
 
 };
 
-var dailyListEl = $("#daily-list");
+var getFiveWeather = function (city) {
+    // 5 day weather forecast api call
+    var fiveApiUrl = "https://api.openweathermap.org/data/2.5/forecast?q=" + city + "&units=imperial&appid=c845404333af03f8f793eadcc58eeb29";
+
+    fetch(fiveApiUrl).then(function (response) {
+        if (response.ok) {
+            response.json().then(function (data) {
+                displayFiveWeather(data);
+            });
+        } else {
+            alert("Please enter a valid city name!");
+        };
+    });
+};
+
 
 var displayDailyWeather = function (data) {
     // empty ul element before creating new elements
@@ -48,7 +54,7 @@ var displayDailyWeather = function (data) {
     var temp = data.main.temp;
     var wind = data.wind.speed;
     var humid = data.main.humidity;
-    
+
     // adds city name to card-header
     $("#city-span").text(cityName);
 
@@ -70,8 +76,13 @@ var displayDailyWeather = function (data) {
     dailyListEl.append(dailyTempEl);
     dailyListEl.append(dailyWindEl);
     dailyListEl.append(dailyHumidEl);
+};
 
-
+var displayFiveWeather = function (data) {
+    console.log(data.city.name);
+    console.log(data.list[0].main.temp);
+    console.log(data.list[0].wind.speed);
+    console.log(data.list[0].main.humidity);
 };
 
 // listen for click on search btn call searchSubmitHandler

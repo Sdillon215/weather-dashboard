@@ -55,7 +55,7 @@ var displayDailyWeather = function (data) {
     // creates dailyTempEl and give a value of temp
     var dailyTempEl = document.createElement("li");
     dailyTempEl.classList = "list-group-item";
-    dailyTempEl.textContent = "Tempurature: " + temp;
+    dailyTempEl.textContent = "Tempurature: " + temp + " F";
 
     // creates dailyWindEl and give a value of wind
     var dailyWindEl = document.createElement("li");

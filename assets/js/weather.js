@@ -11,7 +11,6 @@ var searchSubmitHandler = function (event) {
 
     if (city) {
         getDailyWeather(city);
-        getFiveWeather(city);
     }
 };
 
@@ -23,6 +22,9 @@ var getDailyWeather = function (city) {
             response.json().then(function (data) {
 
                 displayDailyWeather(data);
+                var lat = data.coord.lat;
+                var lon = data.coord.lon;
+                getFiveWeather(lat, lon);
             });
         } else {
             alert("Please enter a city name!");
@@ -31,9 +33,9 @@ var getDailyWeather = function (city) {
 
 };
 
-var getFiveWeather = function (city) {
+var getFiveWeather = function (lat, lon) {
     // 5 day weather forecast api call
-    var fiveApiUrl = "https://api.openweathermap.org/data/2.5/forecast?q=" + city + "&units=imperial&appid=c845404333af03f8f793eadcc58eeb29";
+    var fiveApiUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&exclude=current,minutely,hourly,alerts&units=imperial&appid=c845404333af03f8f793eadcc58eeb29";
 
     fetch(fiveApiUrl).then(function (response) {
         if (response.ok) {
@@ -78,10 +80,9 @@ var displayDailyWeather = function (data) {
 
 // use one call api and pull lat nad long from the current api
 var displayFiveWeather = function (data) {
-    // console.log(data.city.name);
-    // console.log(data.list[0].main.temp);
-    // console.log(data.list[0].wind.speed);
-    // console.log(data.list[0].main.humidity);
+    console.log(data.daily[0].temp.day);
+    console.log(data.daily[0].wind_speed);
+    console.log(data.daily[0].humidity);
 
     // for ()
 };

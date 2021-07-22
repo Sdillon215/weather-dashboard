@@ -73,16 +73,17 @@ var displayDailyWeather = function (data) {
     dailyHumidEl.classList = "list-group-item";
     dailyHumidEl.textContent = "Humidity: " + humid + "%";
 
-    dailyListEl.append(dailyTempEl);
-    dailyListEl.append(dailyWindEl);
-    dailyListEl.append(dailyHumidEl);
+    dailyListEl.append(dailyTempEl, dailyWindEl, dailyHumidEl);
 };
 
+// use one call api and pull lat nad long from the current api
 var displayFiveWeather = function (data) {
-    console.log(data.city.name);
-    console.log(data.list[0].main.temp);
-    console.log(data.list[0].wind.speed);
-    console.log(data.list[0].main.humidity);
+    // console.log(data.city.name);
+    // console.log(data.list[0].main.temp);
+    // console.log(data.list[0].wind.speed);
+    // console.log(data.list[0].main.humidity);
+
+    // for ()
 };
 
 // listen for click on search btn call searchSubmitHandler

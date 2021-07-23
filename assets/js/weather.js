@@ -53,7 +53,7 @@ var displayDailyWeather = function (data) {
     // empty ul element before creating new elements
     $("#daily-list").empty();
     var cityName = data.name;
-    var temp = data.main.temp;
+    var tempurature = data.main.temp;
     var wind = data.wind.speed;
     var humid = data.main.humidity;
 
@@ -63,7 +63,7 @@ var displayDailyWeather = function (data) {
     // creates dailyTempEl and give a value of temp
     var dailyTempEl = document.createElement("li");
     dailyTempEl.classList = "list-group-item";
-    dailyTempEl.textContent = "Tempurature: " + temp + " F";
+    dailyTempEl.textContent = "Tempurature: " + tempurature + " F";
 
     // creates dailyWindEl and give a value of wind
     var dailyWindEl = document.createElement("li");
@@ -80,11 +80,13 @@ var displayDailyWeather = function (data) {
 
 // use one call api and pull lat nad long from the current api
 var displayFiveWeather = function (data) {
-    console.log(data.daily[0].temp.day);
-    console.log(data.daily[0].wind_speed);
-    console.log(data.daily[0].humidity);
-
-    // for ()
+    
+    for (var i = 0; i < 5; i++) {
+        console.log(data.daily[i].temp.day);  
+        console.log(data.daily[i].wind_speed);
+        console.log(data.daily[i].humidity);
+        console.log(data.daily[i].dt);
+    };
 };
 
 // listen for click on search btn call searchSubmitHandler

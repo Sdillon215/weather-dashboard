@@ -1,4 +1,3 @@
-var dailyListEl = $("#daily-list");
 var searchCityEl = $("#search-city");
 
 
@@ -51,41 +50,44 @@ var getFiveWeather = function (lat, lon) {
 
 var displayDailyWeather = function (data) {
     // empty ul element before creating new elements
-    $("#daily-list").empty();
-    var cityName = data.name;
-    var tempurature = data.main.temp;
-    var wind = data.wind.speed;
-    var humid = data.main.humidity;
+    $("#current-day").empty();
 
-    // adds city name to card-header
-    $("#city-span").text(cityName);
+    var card = $("<div>").addClass("card");
+    var cardContent = $("<div>").addClass("card-body");
+    var cityContent = $("<p>").addClass("card-text").text(data.name);
+    var tempContent = $("<p>").addClass("card-text").text("Tempurature: " + data.main.temp + "F");
+    var windContent = $("<p>").addClass("card-text").text("Wind: " + data.wind.speed + " Mph");
+    var humidContent = $("<p>").addClass("card-text").text("Humidity: " + data.main.humidity + "%");
+    var image = $("<img>").attr("src", "https://openweathermap.org/img/w/" + data.weather[0].icon + ".png")
 
-    // creates dailyTempEl and give a value of temp
-    var dailyTempEl = document.createElement("li");
-    dailyTempEl.classList = "list-group-item";
-    dailyTempEl.textContent = "Tempurature: " + tempurature + " F";
-
-    // creates dailyWindEl and give a value of wind
-    var dailyWindEl = document.createElement("li");
-    dailyWindEl.classList = "list-group-item";
-    dailyWindEl.textContent = "Wind: " + wind + " MPH";
-
-    // creates dailyHumidEl and gives a value of humid
-    var dailyHumidEl = document.createElement("li");
-    dailyHumidEl.classList = "list-group-item";
-    dailyHumidEl.textContent = "Humidity: " + humid + "%";
-
-    dailyListEl.append(dailyTempEl, dailyWindEl, dailyHumidEl);
+    cardContent.append(cityContent, image, tempContent, windContent, humidContent)
+    card.append(cardContent);
+    $("#current-day").append(card);
 };
 
 // use one call api and pull lat nad long from the current api
 var displayFiveWeather = function (data) {
-    
+
     for (var i = 0; i < 5; i++) {
-        console.log(data.daily[i].temp.day);  
-        console.log(data.daily[i].wind_speed);
-        console.log(data.daily[i].humidity);
-        console.log(data.daily[i].dt);
+        var unixTime = data.daily[i].dt;
+        var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+
+        var millisecond = unixTime * 1000;
+        var dailyDate = new Date(millisecond);
+        var fiveDate = dailyDate.toLocaleString("en-US", options);
+
+        var card = $("<div>").addClass("card");
+        var cardContent = $("<div>").addClass("card-body");
+        var date = $("<p>").addClass("card-text").text(fiveDate);
+        var tempContent = $("<p>").addClass("card-text").text("Tempurature: " + data.daily[i].temp.day + "F");
+        var windContent = $("<p>").addClass("card-text").text("Wind: " + data.daily[i].wind_speed + " Mph");
+        var humidContent = $("<p>").addClass("card-text").text("Humidity: " + data.daily[i].humidity + "%");
+        var image = $("<img>").attr("src", "https://openweathermap.org/img/w/" + data.daily[i].weather[0].icon + ".png");
+
+        cardContent.append(date, image, tempContent, windContent, humidContent);
+        card.append(cardContent);
+        $("#forecast").append(card);
+        // daily[0].weather[0].icon
     };
 };
 

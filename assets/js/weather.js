@@ -52,7 +52,7 @@ var displayDailyWeather = function (data) {
     // empty ul element before creating new elements
     $("#current-day").empty();
 
-    var card = $("<div>").addClass("card");
+    var card = $("<div>").addClass("card bg-light");
     var cardContent = $("<div>").addClass("card-body");
     var cityContent = $("<p>").addClass("card-text").text(data.name);
     var tempContent = $("<p>").addClass("card-text").text("Tempurature: " + data.main.temp + "F");
@@ -67,6 +67,10 @@ var displayDailyWeather = function (data) {
 
 // use one call api and pull lat nad long from the current api
 var displayFiveWeather = function (data) {
+    $("#forecast").empty();
+    $("#forecast-title").empty();
+    var title = $("<h2>").text("5 Day Forecast");
+    $("#forecast-title").append(title);
 
     for (var i = 0; i < 5; i++) {
         var unixTime = data.daily[i].dt;
@@ -76,7 +80,7 @@ var displayFiveWeather = function (data) {
         var dailyDate = new Date(millisecond);
         var fiveDate = dailyDate.toLocaleString("en-US", options);
 
-        var card = $("<div>").addClass("card");
+        var card = $("<div>").addClass("card col-lg bg-light col-sm-12 col-md-4 my-auto");
         var cardContent = $("<div>").addClass("card-body");
         var date = $("<p>").addClass("card-text").text(fiveDate);
         var tempContent = $("<p>").addClass("card-text").text("Tempurature: " + data.daily[i].temp.day + "F");
@@ -87,7 +91,6 @@ var displayFiveWeather = function (data) {
         cardContent.append(date, image, tempContent, windContent, humidContent);
         card.append(cardContent);
         $("#forecast").append(card);
-        // daily[0].weather[0].icon
     };
 };
 

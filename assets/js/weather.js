@@ -88,7 +88,7 @@ var displayFiveWeather = function (data) {
         var dailyDate = new Date(millisecond);
         var fiveDate = dailyDate.toLocaleString("en-US", options);
 
-        var card = $("<div>").addClass("card col-lg bg-light col-sm-12 col-md-4 my-auto");
+        var card = $("<div>").addClass("card col-lg bg-light col-sm-12 col-md-4");
         var cardContent = $("<div>").addClass("card-body");
         var date = $("<p>").addClass("card-text").text(fiveDate);
         var tempContent = $("<p>").addClass("card-text").text("Tempurature: " + data.daily[i].temp.day + "F");

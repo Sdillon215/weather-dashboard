@@ -15,14 +15,19 @@ var searchSubmitHandler = function (event) {
     if (city) {
         getDailyWeather(city);
         
-        console.log(cityArr);
     };
     loadCity();
 };
 
 var loadCity = function () {
     cityArr = JSON.parse(localStorage.getItem("cityArr")) || [];
-    console.log(cityArr);
+    // console.log(cityArr);
+
+    for (let i = 0; i < cityArr.length; i++) {
+        console.log(cityArr[i]);
+        var newBtn = $("<button>").addClass("button list-group-item").text(cityArr[i]);
+        $("#city-list").append(newBtn);
+    }
 };
 
 var getDailyWeather = function (city) {

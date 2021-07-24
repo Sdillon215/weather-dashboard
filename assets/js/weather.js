@@ -1,4 +1,6 @@
+var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 var searchCityEl = $("#search-city");
+
 
 
 
@@ -52,15 +54,22 @@ var displayDailyWeather = function (data) {
     // empty ul element before creating new elements
     $("#current-day").empty();
 
+    var currentUnixTime = data.dt
+    var millisecond = currentUnixTime * 1000;
+    var currentDate = new Date(millisecond);
+    var date = currentDate.toLocaleString("en-US", options);
+
+
     var card = $("<div>").addClass("card bg-light");
     var cardContent = $("<div>").addClass("card-body");
     var cityContent = $("<p>").addClass("card-text").text(data.name);
+    var dateContent = $("<p>").addClass("card-text").text(date);
     var tempContent = $("<p>").addClass("card-text").text("Tempurature: " + data.main.temp + "F");
     var windContent = $("<p>").addClass("card-text").text("Wind: " + data.wind.speed + " Mph");
     var humidContent = $("<p>").addClass("card-text").text("Humidity: " + data.main.humidity + "%");
     var image = $("<img>").attr("src", "https://openweathermap.org/img/w/" + data.weather[0].icon + ".png")
 
-    cardContent.append(cityContent, image, tempContent, windContent, humidContent)
+    cardContent.append(cityContent, dateContent, image, tempContent, windContent, humidContent)
     card.append(cardContent);
     $("#current-day").append(card);
 };
@@ -73,10 +82,9 @@ var displayFiveWeather = function (data) {
     $("#forecast-title").append(title);
 
     for (var i = 0; i < 5; i++) {
-        var unixTime = data.daily[i].dt;
-        var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        var dailyUnixTime = data.daily[i].dt;
+        var millisecond = dailyUnixTime * 1000;
 
-        var millisecond = unixTime * 1000;
         var dailyDate = new Date(millisecond);
         var fiveDate = dailyDate.toLocaleString("en-US", options);
 

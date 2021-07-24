@@ -1,5 +1,6 @@
 var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 var searchCityEl = $("#search-city");
+var cityArr = JSON.parse(localStorage.getItem("cityArr")) || [];
 
 
 
@@ -8,11 +9,20 @@ var searchSubmitHandler = function (event) {
     event.preventDefault();
 
     // get value of search input
-    var city = searchCityEl.val().trim();
+    var city = searchCityEl.val().trim().toLowerCase();
+    console.log(city);
 
     if (city) {
         getDailyWeather(city);
-    }
+        
+        console.log(cityArr);
+    };
+    loadCity();
+};
+
+var loadCity = function () {
+    cityArr = JSON.parse(localStorage.getItem("cityArr")) || [];
+    console.log(cityArr);
 };
 
 var getDailyWeather = function (city) {
@@ -21,6 +31,11 @@ var getDailyWeather = function (city) {
     fetch(currentApiUrl).then(function (response) {
         if (response.ok) {
             response.json().then(function (data) {
+
+                if (cityArr.indexOf(city) === -1) {
+                    cityArr.push(city);
+                    localStorage.setItem("cityArr", JSON.stringify(cityArr));
+                };
 
                 displayDailyWeather(data);
                 var lat = data.coord.lat;

@@ -48,11 +48,16 @@ var loadCity = function () {
 
     $("#city-list").empty();
     for (let i = 0; i < cityArr.length; i++) {
-        console.log(cityArr[i]);
         var newBtn = $("<button>").addClass("button list-group-item").text(cityArr[i]);
         $("#city-list").append(newBtn);
     }
 };
+
+$("#city-list").on("click", "button", function () {
+    var city = this.textContent;
+    getDailyWeather(city);
+});
+
 var getFiveWeather = function (lat, lon) {
     // 5 day weather forecast api call
     var fiveApiUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&exclude=current,minutely,hourly,alerts&units=imperial&appid=c845404333af03f8f793eadcc58eeb29";
@@ -120,6 +125,7 @@ var displayFiveWeather = function (data) {
         $("#forecast").append(card);
     };
 };
+
 
 // listen for click on search btn call searchSubmitHandler
 $("#search-btn").click("submit", searchSubmitHandler);
